@@ -155,9 +155,9 @@ def get_coffee_buy_signals():
     extreme_hots = []
     extreme_colds = []
     for i in range(len(coffee_df)):
-        if coffee_df["Max_Temp_C"].iloc[i] > 34 and coffee_df.index[i].month in [7, 8]:
+        if coffee_df["Max_Temp_C"].iloc[i] > 33 and coffee_df.index[i].month in [9, 10]:
             extreme_hots.append(coffee_df.index[i].date())
-        if coffee_df["Min_Temp_C"].iloc[i] < 0 and coffee_df.index[i].month in [5, 9]:
+        if coffee_df["Min_Temp_C"].iloc[i] < 2 and coffee_df.index[i].month in [6, 7, 8]:
             extreme_colds.append(coffee_df.index[i].date())
 
     extreme_hots = pd.to_datetime(extreme_hots)

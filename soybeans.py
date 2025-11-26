@@ -156,15 +156,9 @@ def get_soybeans_buy_signals():
     extreme_hots = []
     extreme_colds = []
     for i in range(len(soybeans_df)):
-        if soybeans_df["Max_Temp_C"].iloc[i] > 34 and soybeans_df.index[i].month in [
-            7,
-            8,
-        ]:
+        if soybeans_df["Max_Temp_C"].iloc[i] > 33 and soybeans_df.index[i].month in [8]:
             extreme_hots.append(soybeans_df.index[i].date())
-        if soybeans_df["Min_Temp_C"].iloc[i] < 0 and soybeans_df.index[i].month in [
-            5,
-            9,
-        ]:
+        if soybeans_df["Min_Temp_C"].iloc[i] < -2 and soybeans_df.index[i].month in [9, 10]:
             extreme_colds.append(soybeans_df.index[i].date())
 
     extreme_hots = pd.to_datetime(extreme_hots)

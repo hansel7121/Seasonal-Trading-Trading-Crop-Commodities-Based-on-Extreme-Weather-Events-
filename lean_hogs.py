@@ -155,9 +155,9 @@ def get_hogs_buy_signals():
     extreme_hots = []
     extreme_colds = []
     for i in range(len(hogs_df)):
-        if hogs_df["Max_Temp_C"].iloc[i] > 34 and hogs_df.index[i].month in [7, 8]:
+        if hogs_df["Max_Temp_C"].iloc[i] > 38 and hogs_df.index[i].month in [13]:
             extreme_hots.append(hogs_df.index[i].date())
-        if hogs_df["Min_Temp_C"].iloc[i] < 0 and hogs_df.index[i].month in [5, 9]:
+        if hogs_df["Min_Temp_C"].iloc[i] < -20 and hogs_df.index[i].month in [12, 1, 2, 3]:
             extreme_colds.append(hogs_df.index[i].date())
 
     extreme_hots = pd.to_datetime(extreme_hots)
