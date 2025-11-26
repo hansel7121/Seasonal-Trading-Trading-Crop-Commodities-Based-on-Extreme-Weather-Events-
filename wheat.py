@@ -3,7 +3,9 @@ import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("kansas_wheat_temps_10y.csv", index_col="Date", parse_dates=True)
+df = pd.read_csv(
+    "crops_data/kansas_wheat_temps_10y.csv", index_col="Date", parse_dates=True
+)
 
 wheat_prices = yf.download(
     "KE=F", start="2015-01-01", end="2025-11-24", auto_adjust=True
