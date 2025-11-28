@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datascience.util import make_array
 from datascience import *
 from datetime import datetime
-from lean_hogs.lean_hogs import get_hogs_buy_signals
+from lean_hogs import get_hogs_buy_signals
 
 hogs_df = pd.read_csv(
     "crops_data/iowa_hog_weather_10y.csv", index_col="Date", parse_dates=True
@@ -50,6 +50,13 @@ for month in every_month:
         yes_buy_signals_months = np.append(yes_buy_signals_months, False)
 # print(yes_buy_signals_months)
 
+# parameters for estimated drag from rolling yield
+estimated_drag = 0.025
+def get_roll_months(current_date):
+    month = current_date.month
+    if month in [2, 4, 6, 8, 10, 12]:
+        return True
+    return False
 
 # function to calculate returns for a given month
 def month_return(prices, buy_signal, holding_period):
@@ -65,8 +72,17 @@ def month_return(prices, buy_signal, holding_period):
     idx = prices.index.get_indexer([target_sell_date], method="nearest")[0]
     sell_date = prices.index[idx]
 
+    roll_months = []
+    for i in range(1, holding_period + 1):
+        if get_roll_months(buy_signal + pd.DateOffset(months=i)):
+            roll_months.append(i)
+
+    total_drag = 1
+    for i in range(len(roll_months)):
+        total_drag *= 1 - estimated_drag
+
     sell_price = prices.loc[sell_date]
-    annualized_return = (sell_price - buy_price) / buy_price
+    annualized_return = ((sell_price - buy_price) / buy_price) * total_drag
 
     # Convert to float if it's a Series
     if isinstance(annualized_return, pd.Series):

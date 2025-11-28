@@ -260,15 +260,16 @@ def plot_optimization_results(cash_results, return_results, best_months):
 hogs_buy_signals = None
 
 
-extreme_hots, extreme_colds = plot_extremes(hogs_df)
-plot_prices(hogs_prices, extreme_hots, extreme_colds)
-hogs_buy_signals = buy_signals(extreme_hots, extreme_colds, hogs_prices)
-print(hogs_buy_signals)
-cash, annualized_return, portfolio_value = backtest_strategy(
-    hogs_prices, hogs_buy_signals, 6
-)
-plot_returns(hogs_prices, hogs_buy_signals, 6)
-best_months, best_pnl, cash_results, return_results = optimize_holding_period(
-    hogs_prices, hogs_buy_signals, 1, 12
-)
-plot_optimization_results(cash_results, return_results, best_months)
+if __name__ == "__main__":
+    extreme_hots, extreme_colds = plot_extremes(hogs_df)
+    plot_prices(hogs_prices, extreme_hots, extreme_colds)
+    hogs_buy_signals = buy_signals(extreme_hots, extreme_colds, hogs_prices)
+    print(hogs_buy_signals)
+    cash, annualized_return, portfolio_value = backtest_strategy(
+        hogs_prices, hogs_buy_signals, 6
+    )
+    plot_returns(hogs_prices, hogs_buy_signals, 6)
+    best_months, best_pnl, cash_results, return_results = optimize_holding_period(
+        hogs_prices, hogs_buy_signals, 1, 12
+    )
+    plot_optimization_results(cash_results, return_results, best_months)

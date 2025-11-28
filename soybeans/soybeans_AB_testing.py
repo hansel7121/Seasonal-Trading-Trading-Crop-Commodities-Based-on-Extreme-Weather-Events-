@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datascience.util import make_array
 from datascience import *
 from datetime import datetime
-from soybeans.soybeans import get_soybeans_buy_signals
+from soybeans import get_soybeans_buy_signals
 
 soybeans_df = pd.read_csv(
     "crops_data/iowa_soybean_temps_10y.csv", index_col="Date", parse_dates=True

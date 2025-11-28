@@ -255,16 +255,16 @@ def plot_optimization_results(cash_results, return_results, best_months):
 
 soybeans_buy_signals = None
 
-
-extreme_hots, extreme_colds = plot_extremes(soybeans_df)
-plot_prices(soybeans_prices, extreme_hots, extreme_colds)
-soybeans_buy_signals = buy_signals(extreme_hots, extreme_colds, soybeans_prices)
-print(soybeans_buy_signals)
-cash, annualized_return, portfolio_value = backtest_strategy(
-    soybeans_prices, soybeans_buy_signals, 6
-)
-plot_returns(soybeans_prices, soybeans_buy_signals, 8)
-best_months, best_pnl, cash_results, return_results = optimize_holding_period(
-    soybeans_prices, soybeans_buy_signals, 1, 12
-)
-plot_optimization_results(cash_results, return_results, best_months)
+if __name__ == "__main__":
+    extreme_hots, extreme_colds = plot_extremes(soybeans_df)
+    plot_prices(soybeans_prices, extreme_hots, extreme_colds)
+    soybeans_buy_signals = buy_signals(extreme_hots, extreme_colds, soybeans_prices)
+    print(soybeans_buy_signals)
+    cash, annualized_return, portfolio_value = backtest_strategy(
+        soybeans_prices, soybeans_buy_signals, 6
+    )
+    plot_returns(soybeans_prices, soybeans_buy_signals, 8)
+    best_months, best_pnl, cash_results, return_results = optimize_holding_period(
+        soybeans_prices, soybeans_buy_signals, 1, 12
+    )
+    plot_optimization_results(cash_results, return_results, best_months)

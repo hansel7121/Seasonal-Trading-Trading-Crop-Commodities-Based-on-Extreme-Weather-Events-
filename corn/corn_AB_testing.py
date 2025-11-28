@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datascience.util import make_array
 from datascience import *
 from datetime import datetime
-from corn.corn import get_corn_buy_signals
+from corn import get_corn_buy_signals
 
 corn_df = pd.read_csv(
     "crops_data/iowa_corn_temps_10y.csv", index_col="Date", parse_dates=True
@@ -25,7 +25,6 @@ corn_buy_signals = sorted(get_corn_buy_signals())
 corn_signals_in_months = make_array()
 for signal in corn_buy_signals:
     period = signal.to_period("M")
-    # period = signal.strftime('%Y-%m')
     if period not in corn_signals_in_months:
         corn_signals_in_months = np.append(corn_signals_in_months, period)
 print(corn_signals_in_months)
@@ -51,6 +50,14 @@ for month in every_month:
 # print(yes_buy_signals_months)
 
 
+# parameters for estimated drag from rolling yield
+estimated_drag = 0.02
+def get_roll_months(current_date):
+    month = current_date.month
+    if month in [3, 5, 7, 9, 12]:
+        return True
+    return False
+
 # function to calculate returns for a given month
 def month_return(prices, buy_signal, holding_period):
     # Check if buy_signal exists in the index, if not find nearest
@@ -65,8 +72,17 @@ def month_return(prices, buy_signal, holding_period):
     idx = prices.index.get_indexer([target_sell_date], method="nearest")[0]
     sell_date = prices.index[idx]
 
+    roll_months = []
+    for i in range(1, holding_period + 1):
+        if get_roll_months(buy_signal + pd.DateOffset(months=i)):
+            roll_months.append(i)
+
+    total_drag = 1
+    for i in range(len(roll_months)):
+        total_drag *= 1 - estimated_drag
+
     sell_price = prices.loc[sell_date]
-    annualized_return = (sell_price - buy_price) / buy_price
+    annualized_return = (sell_price - buy_price) / buy_price * total_drag
 
     # Convert to float if it's a Series
     if isinstance(annualized_return, pd.Series):
