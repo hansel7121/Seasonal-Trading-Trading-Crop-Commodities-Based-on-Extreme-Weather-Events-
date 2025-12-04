@@ -254,16 +254,16 @@ def plot_optimization_results(cash_results, return_results, best_months):
 
 coffee_buy_signals = None
 
-
-extreme_hots, extreme_colds = plot_extremes(coffee_df)
-plot_prices(coffee_prices, extreme_hots, extreme_colds)
-coffee_buy_signals = buy_signals(extreme_hots, extreme_colds, coffee_prices)
-print(coffee_buy_signals)
-cash, annualized_return, portfolio_value = backtest_strategy(
-    coffee_prices, coffee_buy_signals, 6
-)
-plot_returns(coffee_prices, coffee_buy_signals, 6)
-best_months, best_pnl, cash_results, return_results = optimize_holding_period(
-    coffee_prices, coffee_buy_signals, 1, 12
-)
-plot_optimization_results(cash_results, return_results, best_months)
+if __name__ == "__main__":
+    extreme_hots, extreme_colds = plot_extremes(coffee_df)
+    plot_prices(coffee_prices, extreme_hots, extreme_colds)
+    coffee_buy_signals = buy_signals(extreme_hots, extreme_colds, coffee_prices)
+    print(coffee_buy_signals)
+    cash, annualized_return, portfolio_value = backtest_strategy(
+        coffee_prices, coffee_buy_signals, 6
+    )
+    plot_returns(coffee_prices, coffee_buy_signals, 6)
+    best_months, best_pnl, cash_results, return_results = optimize_holding_period(
+        coffee_prices, coffee_buy_signals, 1, 12
+    )
+    plot_optimization_results(cash_results, return_results, best_months)
